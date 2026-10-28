@@ -15,6 +15,7 @@ for(const [key,val] of Object.entries({SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,SUP
 const sb=createClient(SUPABASE_URL,SUPABASE_SECRET_KEY,{auth:{persistSession:false,autoRefreshToken:false}});
 const authClient=createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:false,autoRefreshToken:false}});
 const app=express();app.disable('x-powered-by');app.use(helmet({contentSecurityPolicy:false}));app.use(express.json({limit:'1mb'}));app.use('/api',rateLimit({windowMs:15*60*1000,limit:160,standardHeaders:'draft-7',legacyHeaders:false}));
+app.set('trust proxy', 1);
 const guard=(fn)=>(req,res,next)=>Promise.resolve(fn(req,res)).catch(next);
 const id=()=>crypto.randomUUID();
 function check(error){if(error)throw new Error(error.message)}
